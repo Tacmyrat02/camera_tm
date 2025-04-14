@@ -1,0 +1,24 @@
+{% extends "home.html" %}
+{% load math_filters %}
+{% load i18n %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Switch Models</title>
+</head>
+<body>
+    <h1>Switch Models</h1>
+    <ul>
+        {% for switch in switches %}
+            <li>
+                <strong>{{ switch.model_name }}</strong><br>
+                Price: ${{ switch.price }}<br>
+                Description: {{ switch.description }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{%endblock%}

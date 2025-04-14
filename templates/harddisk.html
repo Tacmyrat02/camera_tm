@@ -1,0 +1,24 @@
+{% extends "home.html" %}
+{% load math_filters %}
+{% load i18n %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hard Disk List</title>
+</head>
+<body>
+    <h1>Hard Disk List</h1>
+    <ul>
+        {% for harddisk in harddisks %}
+            <li>
+                <strong>{{ harddisk.storage_capacity }} GB</strong><br>
+                Price: ${{ harddisk.price }}<br>
+                Description: {{ harddisk.description }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{%endblock%}

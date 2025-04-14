@@ -1,0 +1,25 @@
+
+{% extends "home.html" %}
+{% load math_filters %}
+{% load i18n %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVR Models</title>
+</head>
+<body>
+    <h1>NVR Models</h1>
+    <ul>
+        {% for nvr in nvr_items %}
+            <li>
+                <strong>{{ nvr.model_name }}</strong><br>
+                Price: ${{ nvr.price }}<br>
+                Description: {{ nvr.description }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{%endblock%}
