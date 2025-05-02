@@ -100,7 +100,7 @@ function updateCartBadge() {
 
 function clearCartBadge() {
     localStorage.removeItem('cartUpdated');
-    const cartLink = document.querySelector("a[href='{% url 'cart' %}']");
+    const cartLink = document.querySelector("a[href='{% url 'view_cart' %}']");
     if (cartLink) {
         cartLink.classList.remove('active');
     }
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartBadge();
     
     // Clear badge when cart is viewed
-    const cartLink = document.querySelector("a[href='{% url 'cart' %}']");
+    const cartLink = document.querySelector("a[href='{% url 'view_cart' %}']");
     if (cartLink) {
         cartLink.addEventListener('click', clearCartBadge);
     }
