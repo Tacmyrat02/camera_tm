@@ -314,4 +314,45 @@ footer {
     line-height: 1.6;
     color: #555;
   }
-  
+  .cart-button {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+.cart-button:hover {
+    background-color: #0056b3;
+}
+.logo-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     padding: 1rem;
+    }
+.logo img {
+    max-width: 150px;
+    height: auto;
+    }
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        background-color: #0b0b0c;
+    }
+    
+    .header-middle {
+        text-align: center;
+    }
+    
+    .header-middle img {
+        width: 100px; /* Reduced size of the logo */
+        height: auto;
+    }
+    
+    @media (max-width: 768px) {
+        .header-middle img {
+            width: 80px;
+        }
+    }

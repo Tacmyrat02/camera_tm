@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from app.views import harddisk_list, home , brand_cameras, nvr_list,view_cart,add_to_cart,switch_list
+from app.views import harddisk_list, home, brand_cameras, nvr_list, view_cart, add_to_cart, switch_list, update_cart_quantity, place_order, order_confirmation
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -11,10 +11,13 @@ urlpatterns = [
     path('brand/<str:brand>/', brand_cameras, name='brand_cameras'),
     path('add-to-cart/<int:camera_id>/', add_to_cart, name='add_to_cart'),
     path('cart/', view_cart, name='view_cart'),
+    path('cart/update/<int:cart_item_id>/<str:action>/', update_cart_quantity, name='update_cart_quantity'),
+    path('cart/place-order/', place_order, name='place_order'),
+    path('order-confirmation/<int:order_id>/', order_confirmation, name='order_confirmation'),
     path('switches/', switch_list, name='switch_list'),
     path('nvrs/', nvr_list, name='nvr_list'),
     path('harddisk/', harddisk_list, name='harddisk_list'),
 ]
-    # ... other URLs
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

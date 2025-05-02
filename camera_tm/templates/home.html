@@ -12,78 +12,86 @@
 <body>
     <header>
         <div class="logo">
-            <a href="/">
-                <img src="{% static 'images/logo.png' %}" alt="{% translate 'CameraTM Logo' %}">
-            </a>
+            
         </div>
         <div class="header-middle">
-            <p>{% translate "Even if you don't believe your eyes, believe in CAMERA.TM." %}</p>
+            <p>{% translate "Welcome to  CAMERA.TM." %}</p>
+            
+        </div><div class="header-right">
+            <button id="menuButton" class="sidebar-toggle" onclick="toggleSidebar()">
+                ☰
+            </button>
+            <a href="/" class="home-button">
+                {% translate "Home" %}
+            </a>
+            <form action="{% url 'set_language' %}" method="post" class="language-form">{% csrf_token %}
+                <label for="language">{% translate "Select Language" %}:</label>
+                <select name="language" id="language" onchange="this.form.submit()">
+                    <option value="" disabled selected>{% translate "Select Language" %}</option>
+                    <option value="tk">Türkmen Dili (tk)</option>
+                    <option value="ru">Русский (ru)</option>
+                    <option value="en">English (en)</option>
+                </select>
+            </form>
         </div>
-        <form action="{% url 'set_language' %}" method="post" class="language-form">{% csrf_token %}
-            <label for="language">{% translate "Select Language" %}:</label>
-            <select name="language" id="language" onchange="this.form.submit()">
-                <option value="" disabled selected>{% translate "Select Language" %}</option>
-                <option value="tk">Türkmen Dili (tk)</option>
-                <option value="ru">Русский (ru)</option>
-                <option value="en">English (en)</option>
-            </select>
-        </form>
     </header>
-   <!-- Sidebar toggle button -->
-<button id="menuButton" class="sidebar-toggle" onclick="toggleSidebar()">
-    ☰
-</button>
 
-<!-- Sidebar -->
-<aside id="sidebar" class="sidebar">
-    <button onclick="toggleSidebar()">✖</button>
-    <h2>{% translate "Categories" %}</h2>
-    <ul>
-        <li>
-            <a href="#" onclick="toggleSubBrands('cameras')">{% translate "Cameras" %}</a>
-            <ul id="camerasSubBrands" class="subbrands" style="display: none;">
-                <li><a href="{% url 'brand_cameras' 'UNV' %}">UNV</a></li>
-                <li><a href="{% url 'brand_cameras' 'TVT' %}">TVT</a></li>
-                <li><a href="{% url 'brand_cameras' 'Tiandy' %}">Tiandy</a></li>
-                <li><a href="{% url 'brand_cameras' 'Uniarch' %}">Uniarch</a></li>
-            </ul>
-        </li>
-        <li><a href="{% url 'switch_list' %}">{% translate "Switches" %}</a></li>
-        <li><a href="{% url 'harddisk_list' %}">{% translate "Hard disk" %}</a></li>
-        <li><a href="{% url 'nvr_list' %}">{% translate "NVR" %}</a></li>
-    </ul>
-</aside>
+    <!-- View Counter -->
+    <div class="view-counter" style="text-align: center; padding: 10px; background-color: #333; color: #dcdcdc;">
+        <p>{% translate "Total Page Views" %}: {{ view_count }}</p>
+    </div>
 
+    <!-- Sidebar toggle button -->
+    <button id="menuButton" class="sidebar-toggle" onclick="toggleSidebar()">
+        ☰
+    </button>
 
-    
-        
-        <aside class="sidebar">
-            <h2>{% translate "Cameras by Brand" %}</h2>
-            {% for brand, cameras in cameras_by_brand.items %}
-                <div class="brand-group">
-                    <h3>{{ brand }}</h3>
-                    <div class="card-container">
-                        {% for camera in cameras %}
-                            <div class="camera-card">
-                                <img src="{{ camera.image.url }}" alt="{{ camera.model_name }}">
-                                <h4>{{ camera.model_name }}</h4>
-                                <p>${{ camera.price }}</p>
-                            </div>
-                        {% empty %}
-                            <p>{% translate "No cameras available" %}</p>
-                        {% endfor %}
-                    </div>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <button onclick="toggleSidebar()">✖</button>
+        <h2>{% translate "Categories" %}</h2>
+        <ul>
+            <li>
+                <a href="#" onclick="toggleSubBrands('cameras')">{% translate "Cameras" %}</a>
+                <ul id="camerasSubBrands" class="subbrands" style="display: none;">
+                    <li><a href="{% url 'brand_cameras' 'UNV' %}">UNV</a></li>
+                    <li><a href="{% url 'brand_cameras' 'TVT' %}">TVT</a></li>
+                    <li><a href="{% url 'brand_cameras' 'Tiandy' %}">Tiandy</a></li>
+                    <li><a href="{% url 'brand_cameras' 'Uniarch' %}">Uniarch</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'switch_list' %}">{% translate "Switches" %}</a></li>
+            <li><a href="{% url 'harddisk_list' %}">{% translate "Hard disk" %}</a></li>
+            <li><a href="{% url 'nvr_list' %}">{% translate "NVR" %}</a></li>
+            <li><a href="{% url 'view_cart' %}">{% translate "cart" %}</a></li>
+            
+        </ul>
+    </aside>
+
+    <aside class="sidebar">
+        <h2>{% translate "Cameras by Brand" %}</h2>
+        {% for brand, cameras in cameras_by_brand.items %}
+            <div class="brand-group">
+                <h3>{{ brand }}</h3>
+                <div class="card-container">
+                    {% for camera in cameras %}
+                        <div class="camera-card">
+                            <img src="{{ camera.image.url }}" alt="{{ camera.model_name }}">
+                            <h4>{{ camera.model_name }}</h4>
+                            <p>${{ camera.price }}</p>
+                        </div>
+                    {% empty %}
+                        <p>{% translate "No cameras available" %}</p>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </aside>
-           
-        </aside>
-        <main class="hero">
-            {% block content %}
-            <!-- Sahypa mazmuny şu ýerde görkeziler -->
-            {% endblock %}
-        </main>
-        
+            </div>
+        {% endfor %}
+    </aside>
+
+    <main class="hero">
+        {% block content %}
+        <!-- Sahypa mazmuny şu ýerde görkeziler -->
+        {% endblock %}
     </main>
 
     <section class="about-us">
@@ -95,42 +103,42 @@
         <h2>{% translate "Contact Us" %}</h2>
         <p>{% translate "You can reach us through the following channels:" %}</p>
         <div class="social-links">
-            <p>{%translate "Tel: +99361455558"%}</p>
+            <p>{% translate "Tel: +99361455558" %}</p>
             {% if email %}
-        <a href="mailto:{{ email }}" class="contact-link">
-            <img src="{% static 'images/email.png' %}" alt="{% translate 'Email' %}">
-            <span>{% translate "Email" %}</span>
-        </a>
-        {% endif %}
-        {% if tiktok_link %}
-        <a href="{{ tiktok_link }}" target="_blank" class="contact-link">
-            <img src="{% static 'images/tiktok.png' %}" alt="TikTok">
-            <span>TikTok</span>
-        </a>
-        {% endif %}
-        {% if instagram_link %}
-        <a href="{{ instagram_link }}" target="_blank" class="contact-link">
-            <img src="{% static 'images/instagram.png' %}" alt="Instagram">
-            <span>Instagram</span>
-        </a>
-        {% endif %}
-        {% if linkedin_link %}
-        <a href="{{ linkedin_link }}" target="_blank" class="contact-link">
-            <img src="{% static 'images/link.png' %}" alt="LinkedIn">
-            <span>Link</span>
-        </a>
-        {% endif %}
-        {% if imo_link %}
-        <a href="{{ imo_link }}" target="_blank" class="contact-link">
-            <img src="{% static 'images/imo.png' %}" alt="IMO">
-            <span>IMO</span>
-        </a>
-        {% endif %}
+            <a href="mailto:{{ email }}" class="contact-link">
+                <img src="{% static 'images/email.png' %}" alt="{% translate 'Email' %}">
+                <span>{% translate "Email" %}</span>
+            </a>
+            {% endif %}
+            {% if tiktok_link %}
+            <a href="{{ tiktok_link }}" target="_blank" class="contact-link">
+                <img src="{% static 'images/tiktok.png' %}" alt="TikTok">
+                <span>TikTok</span>
+            </a>
+            {% endif %}
+            {% if instagram_link %}
+            <a href="{{ instagram_link }}" target="_blank" class="contact-link">
+                <img src="{% static 'images/instagram.png' %}" alt="Instagram">
+                <span>Instagram</span>
+            </a>
+            {% endif %}
+            {% if linkedin_link %}
+            <a href="{{ linkedin_link }}" target="_blank" class="contact-link">
+                <img src="{% static 'images/link.png' %}" alt="LinkedIn">
+                <span>Link</span>
+            </a>
+            {% endif %}
+            {% if imo_link %}
+            <a href="{{ imo_link }}" target="_blank" class="contact-link">
+                <img src="{% static 'images/imo.png' %}" alt="IMO">
+                <span>IMO</span>
+            </a>
+            {% endif %}
         </div>
     </section>
 
     <footer>
-        <p>&copy; {% now "Y" %} {% translate "CameraTM. All rights reserved." %}</p>
+        <p>© {% now "Y" %} {% translate "CameraTM. All rights reserved." %}</p>
     </footer>
 
     <script>
@@ -153,5 +161,5 @@
             subBrands.style.display = display;
         }
     </script>
-        
-    
+</body>
+</html>
