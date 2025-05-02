@@ -3,6 +3,46 @@
 {% load math_filters %}
 {% load i18n %}
 {% block content %}
+<style>
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+    }
+    .quantity-control button {
+        background-color: #e5e7eb;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    .quantity-control input {
+        width: 50px;
+        text-align: center;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        padding: 5px;
+    }
+    .cart-badge {
+        position: relative;
+    }
+    .cart-badge::after {
+        content: '';
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+        display: none;
+    }
+    .cart-badge.active::after {
+        display: block;
+    }
+</style>
+
 <div class="page-container">
     <h2 class="section-header">{{ brand }} {% translate "Cameras" %}</h2>
     <div class="card-grid">
@@ -10,9 +50,15 @@
             <div class="device-card">
                 <img src="{{ camera.image.url }}" alt="{{ camera.model_name }}" width="200">
                 <h3>{{ camera.model_name }}</h3>
-                <p>{% translate "Price" %}: {{ camera.price }}TMT</p>
-                <form action="{% url 'add_to_cart' camera.id %}" method="post">
+                <p>{% translate "Price" %}: <span class="price-display" data-base-price="{{ camera.price }}">{{ camera.price }}</span>TMT</p>
+                <div class="quantity-control">
+                    <button type="button" onclick="updateQuantity('{{ camera.id }}', -1)">-</button>
+                    <input type="number" id="quantity-{{ camera.id }}" name="quantity" value="1" min="1" readonly>
+                    <button type="button" onclick="updateQuantity('{{ camera.id }}', 1)">+</button>
+                </div>
+                <form action="{% url 'add_to_cart' camera.id %}" method="post" onsubmit="addToCart(event, '{{ camera.id }}')">
                     {% csrf_token %}
+                    <input type="hidden" name="quantity" id="form-quantity-{{ camera.id }}" value="1">
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">{% translate "Add to Cart" %}</button>
                 </form>
             </div>
@@ -21,4 +67,54 @@
         {% endfor %}
     </div>
 </div>
+
+<script>
+function updateQuantity(cameraId, change) {
+    const quantityInput = document.getElementById(`quantity-${cameraId}`);
+    let quantity = parseInt(quantityInput.value) + change;
+    if (quantity < 1) quantity = 1;
+    quantityInput.value = quantity;
+    
+    const formQuantityInput = document.getElementById(`form-quantity-${cameraId}`);
+    formQuantityInput.value = quantity;
+    
+    const priceDisplay = document.querySelector(`#quantity-${cameraId}`).closest('.device-card').querySelector('.price-display');
+    const basePrice = parseFloat(priceDisplay.dataset.basePrice);
+    priceDisplay.textContent = (basePrice * quantity).toFixed(2);
+}
+
+function addToCart(event, cameraId) {
+    event.preventDefault();
+    const form = event.target;
+    localStorage.setItem('cartUpdated', 'true');
+    updateCartBadge();
+    form.submit();
+}
+
+function updateCartBadge() {
+    const cartLink = document.querySelector("a[href='{% url 'view_cart' %}']");
+    if (cartLink && localStorage.getItem('cartUpdated') === 'true') {
+        cartLink.classList.add('cart-badge', 'active');
+    }
+}
+
+function clearCartBadge() {
+    localStorage.removeItem('cartUpdated');
+    const cartLink = document.querySelector("a[href='{% url 'cart' %}']");
+    if (cartLink) {
+        cartLink.classList.remove('active');
+    }
+}
+
+// Initialize badge on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartBadge();
+    
+    // Clear badge when cart is viewed
+    const cartLink = document.querySelector("a[href='{% url 'cart' %}']");
+    if (cartLink) {
+        cartLink.addEventListener('click', clearCartBadge);
+    }
+});
+</script>
 {% endblock %}
