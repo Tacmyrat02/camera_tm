@@ -1,0 +1,208 @@
+{% load i18n static %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <link rel="icon" href="{% static 'images/faveicon.jpg' %}" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% translate "CameraTM" %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for animations and enhancements */
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(-100%);
+        }
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        .hero {
+            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+        .camera-card {
+            transition: transform 0.2s;
+        }
+        .camera-card:hover {
+            transform: scale(1.05);
+        }
+        .social-links img {
+            transition: transform 0.2s;
+        }
+        .social-links img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex items-center justify-between py-4 px-6">
+            <div class="logo">
+                <a href="/">
+                    <img src="{% static 'images/logo.png' %}" alt="{% translate 'CameraTM Logo' %}" class="h-12">
+                </a>
+            </div>
+            <div class="header-middle text-center">
+                <p class="text-lg font-semibold text-gray-700">
+                    {% translate "Even if you don't believe your eyes, believe in CAMERA.TM." %}
+                </p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Telefon düwmesi -->
+                <a href="tel:+99361455558" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                    <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                    {% translate "Call Now" %}
+                </a>
+                <form action="{% url 'set_language' %}" method="post" class="language-form">
+                    {% csrf_token %}
+                    <select name="language" id="language" onchange="this.form.submit()" class="border rounded-lg px-2 py-1">
+                        <option value="" disabled selected>{% translate "Select Language" %}</option>
+                        <option value="tk">Türkmen Dili (tk)</option>
+                        <option value="ru">Русский (ru)</option>
+                        <option value="en">English (en)</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar toggle button -->
+    <button id="menuButton" class="fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded-lg md:hidden" onclick="toggleSidebar()">
+        ☰
+    </button>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40 md:translate-x-0">
+        <div class="flex justify-between items-center p-4">
+            <h2 class="text-xl font-bold">{% translate "Categories" %}</h2>
+            <button class="md:hidden" onclick="toggleSidebar()">✖</button>
+        </div>
+        <ul class="p-4">
+            <li>
+                <a href="#" onclick="toggleSubBrands('cameras')" class="block py-2 text-blue-600 hover:text-blue-800">{% translate "Cameras" %}</a>
+                <ul id="camerasSubBrands" class="subbrands pl-4" style="display: none;">
+                    <li><a href="{% url 'brand_cameras' 'UNV' %}" class="block py-1 hover:text-blue-600">UNV</a></li>
+                    <li><a href="{% url 'brand_cameras' 'TVT' %}" class="block py-1 hover:text-blue-600">TVT</a></li>
+                    <li><a href="{% url 'brand_cameras' 'Tiandy' %}" class="block py-1 hover:text-blue-600">Tiandy</a></li>
+                    <li><a href="{% url 'brand_cameras' 'Uniarch' %}" class="block py-1 hover:text-blue-600">Uniarch</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url 'switch_list' %}" class="block py-2 text-blue-600 hover:text-blue-800">{% translate "Switches" %}</a></li>
+            <li><a href="{% url 'harddisk_list' %}" class="block py-2 text-blue-600 hover:text-blue-800">{% translate "Hard disk" %}</a></li>
+            <li><a href="{% url 'nvr_list' %}" class="block py-2 text-blue-600 hover:text-blue-800">{% translate "NVR" %}</a></li>
+        </ul>
+    </aside>
+
+    <main class="container mx-auto px-6 py-8">
+        <section class="hero text-center mb-8">
+            <h1 class="text-4xl font-bold mb-4">{% translate "Welcome to CameraTM" %}</h1>
+            <p class="text-lg">{% translate "Discover top-quality IP cameras and security solutions tailored for you." %}</p>
+        </section>
+
+        <section class="cameras-by-brand mb-8">
+            <h2 class="text-2xl font-bold mb-4">{% translate "Cameras by Brand" %}</h2>
+            {% for brand, cameras in cameras_by_brand.items %}
+                <div class="brand-group mb-6">
+                    <h3 class="text-xl font-semibold mb-2">{{ brand }}</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {% for camera in cameras %}
+                            <div class="camera-card bg-white shadow-lg rounded-lg overflow-hidden">
+                                <img src="{{ camera.image.url }}" alt="{{ camera.model_name }}" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h4 class="text-lg font-semibold">{{ camera.model_name }}</h4>
+                                    <p class="text-gray-600">${{ camera.price }}</p>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p>{% translate "No cameras available" %}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <section class="about-us bg-white py-12">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-6">{% translate "About Us" %}</h2>
+            <p class="text-lg text-gray-700 text-center max-w-3xl mx-auto">
+                {% translate "Welcome to CameraTM! We specialize in providing high-quality IP cameras and reliable home phone systems to meet your security and communication needs. Our mission is to offer innovative and user-friendly solutions with excellent customer support." %}
+            </p>
+        </div>
+    </section>
+
+    <section class="contact-info bg-gray-200 py-12">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-6">{% translate "Contact Us" %}</h2>
+            <p class="text-lg text-center mb-6">{% translate "You can reach us through the following channels:" %}</p>
+            <div class="social-links flex justify-center space-x-6">
+                <p class="text-lg">{% translate "Tel: +99361455558" %}</p>
+                {% if email %}
+                <a href="mailto:{{ email }}" class="contact-link flex items-center space-x-2">
+                    <img src="{% static 'images/email.png' %}" alt="{% translate 'Email' %}" class="w-8 h-8">
+                    <span>{% translate "Email" %}</span>
+                </a>
+                {% endif %}
+                {% if tiktok_link %}
+                <a href="{{ tiktok_link }}" target="_blank" class="contact-link flex items-center space-x-2">
+                    <img src="{% static 'images/tiktok.png' %}" alt="TikTok" class="w-8 h-8">
+                    <span>TikTok</span>
+                </a>
+                {% endif %}
+                {% if instagram_link %}
+                <a href="{{ instagram_link }}" target="_blank" class="contact-link flex items-center space-x-2">
+                    <img src="{% static 'images/instagram.png' %}" alt="Instagram" class="w-8 h-8">
+                    <span>Instagram</span>
+                </a>
+                {% endif %}
+                {% if linkedin_link %}
+                <a href="{{ linkedin_link }}" target="_blank" class="contact-link flex items-center space-x-2">
+                    <img src="{% static 'images/link.png' %}" alt="LinkedIn" class="w-8 h-8">
+                    <span>Link</span>
+                </a>
+                {% endif %}
+                {% if imo_link %}
+                <a href="{{ imo_link }}" target="_blank" class="contact-link flex items-center space-x-2">
+                    <img src="{% static 'images/imo.png' %}" alt="IMO" class="w-8 h-8">
+                    <span>IMO</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-blue-900 text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-lg">&copy; {% now "Y" %} {% translate "CameraTM. All rights reserved." %}</p>
+            <p class="mt-2">{% translate "Your trusted partner in security and communication solutions." %}</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const menuButton = document.getElementById('menuButton');
+            
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                menuButton.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('active');
+                menuButton.classList.add('hidden');
+            }
+        }
+
+        function toggleSubBrands(category) {
+            const subBrands = document.getElementById(category + 'SubBrands');
+            const display = subBrands.style.display === 'none' ? 'block' : 'none';
+            subBrands.style.display = display;
+        }
+    </script>
+</body>
+</html>
