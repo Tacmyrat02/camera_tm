@@ -304,3 +304,48 @@ $(".add-to-cart").click(function() {
   });
 
   // ... other code ...
+  $(document).ready(function() {
+    $('.add-to-cart-btn').on('click', function(e) {
+        e.preventDefault();
+        var variantId = $(this).data('variant-id');
+        var variantType = $(this).data('variant-type');
+        if (variantId && variantType) {
+            addToCart(variantId, variantType);
+        } else {
+            console.error('Variant ID or type not found');
+            alert('Error: Missing variant ID or type');
+        }
+    });
+
+    function addToCart(variantId, variantType) {
+        var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+        if (!csrfToken) {
+            console.error('CSRF token not found');
+            alert('Error: Missing CSRF token');
+            return;
+        }
+
+        $.ajax({
+            url: '/cart/add/' + variantId + '/',
+            type: 'POST',
+            data: {
+                'csrfmiddlewaretoken': csrfToken,
+                'variant_type': variantType
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message || 'Product added to cart.');
+                    $.get('/cart/count/', function(data) {
+                        $('#cart-count').text(data.count);
+                    });
+                } else {
+                    alert(response.error || 'Failed to add product to cart.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', status, error, xhr.responseText);
+                alert('Error: ' + (xhr.responseText || 'An unexpected error occurred'));
+            }
+        });
+    }
+});

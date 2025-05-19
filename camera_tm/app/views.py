@@ -89,15 +89,23 @@ def home(request):
     }
     return render(request, 'home.html', context)
 def brand_cameras(request, brand):
+    # Get products for the brand with at least one variant in stock
     products = Product.objects.filter(brand=brand, camera_variants__stock__gt=0).distinct()
-    variants = CameraVariant.objects.filter(product__in=products)
+    
+    # Create a list of dictionaries with product and its variants
+    product_list = [
+        {
+            'product': product,
+            'variants': CameraVariant.objects.filter(product=product, stock__gt=0)
+        }
+        for product in products
+    ]
+
     context = {
         'brand': brand,
-        'products': products,
-        'variants': variants,
+        'products': product_list,  # Now a list of {'product': ..., 'variants': ...}
     }
     return render(request, 'brand_cameras.html', context)
-
 def camera_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     variants = CameraVariant.objects.filter(product=product)

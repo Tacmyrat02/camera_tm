@@ -1,57 +1,59 @@
 {% extends 'base.html' %}
-{% load static i18n %}
-{% block title %}{% trans "Cameras - " %}{{ brand }}{% endblock %}
-{% block content %}
-<div class="container">
-    <h1>{{ brand }} {% trans "Cameras" %}</h1>
-    <div class="product-list">
-        {% for item in products %}
-        {% with product=item.product variants=item.variants %}
-        <div class="product-item">
-            <img src="{{ product.image.url }}" alt="{{ product.brand }} {{ product.model_name }}" class="product-img">
-            <h3>{{ product.brand }} {{ product.model_name }}</h3>
-            <p>{{ product.description|truncatewords:20 }}</p>
-            {% with first_variant=variants|first %}
-            <p class="resolution"><strong>{{ first_variant.resolution }}</strong></p>
-            <p class="price">${{ first_variant.price|floatformat:2 }}</p>
-            <div class="variant-select">
-                <label for="variant-select-{{ product.id }}" class="visually-hidden">{% trans "Select Variant" %}:</label>
-                <select id="variant-select-{{ product.id }}" class="variant-dropdown" data-product-id="{{ product.id }}">
-                    {% for v in variants %}
-                    <option value="{{ v.id }}" data-price="{{ v.price }}" data-stock="{{ v.stock }}" data-variant-type="camera" {% if forloop.first %}selected{% endif %}>
-                        {{ v.resolution }} - ${{ v.price }} (Stock: {{ v.stock }})
-                    </option>
-                    {% endfor %}
-                </select>
-                <button class="add-to-cart-btn btn" data-product-id="{{ first_variant.id }}" data-variant-type="camera">{% trans "Add to Cart" %}</button>
-            </div>
-            {% endwith %}
-            <button class="btn add-to-wishlist-btn" data-product-id="{{ product.id }}">Add to Wishlist</button>
-        </div>
-        {% endwith %}
-        {% empty %}
-        <p>{% trans "No cameras available for this brand." %}</p>
-        {% endfor %}
-    </div>
-</div>
-<script>
-    $(document).ready(function() {
-        $('.variant-dropdown').on('change', function() {
-            const $dropdown = $(this);
-            const selectedOption = $dropdown.find('option:selected');
-            const price = selectedOption.data('price');
-            const stock = selectedOption.data('stock');
-            const variantId = selectedOption.val();
-            const variantType = selectedOption.data('variant-type');
-            const $productItem = $dropdown.closest('.product-item');
-            $productItem.find('.price').text('$' + price.toFixed(2));
-            $productItem.find('.resolution').text(
-                $dropdown.find('option:selected').text().split(' - ')[0] // Update displayed resolution
-            );
-            $productItem.find('.add-to-cart-btn')
-                .attr('data-product-id', variantId)
-                .attr('data-variant-type', variantType);
-        });
-    });
-</script>
-{% endblock %}
+  {% load static i18n %}
+  {% block title %}{% trans "Cameras - " %}{{ brand }}{% endblock %}
+  {% block content %}
+  <div class="container">
+      <h1>{{ brand }} {% trans "Cameras" %}</h1>
+      <div class="product-list">
+          {% for item in products %}
+          <div class="product-item">
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.brand }} {{ item.product.model_name }}" class="product-img">
+              <h3>{{ item.product.brand }} {{ item.product.model_name }}</h3>
+              <p>{{ item.product.description|truncatewords:20 }}</p>
+              {% if item.variants %}
+                  {% with first_variant=item.variants|first %}
+                  <p class="resolution"><strong>{{ first_variant.resolution }}</strong></p>
+                  <p class="price">${{ first_variant.price|floatformat:2 }}</p>
+                  <div class="variant-select">
+                      <label for="variant-select-{{ item.product.id }}" class="visually-hidden">{% trans "Select Variant" %}:</label>
+                      <select id="variant-select-{{ item.product.id }}" class="variant-dropdown" data-product-id="{{ item.product.id }}">
+                          {% for v in item.variants %}
+                          <option value="{{ v.id }}" data-price="{{ v.price }}" data-stock="{{ v.stock }}" data-variant-type="camera" {% if forloop.first %}selected{% endif %}>
+                              {{ v.resolution }} - ${{ v.price }} (Stock: {{ v.stock }})
+                          </option>
+                          {% endfor %}
+                      </select>
+                      <button class="add-to-cart-btn btn" data-variant-id="{{ first_variant.id }}" data-variant-type="camera">{% trans "Add to Cart" %}</button>
+                  </div>
+                  {% endwith %}
+              {% else %}
+                  <p>{% trans "No variants available for this product." %}</p>
+              {% endif %}
+              <button class="btn add-to-wishlist-btn" data-product-id="{{ item.product.id }}">{% trans "Add to Wishlist" %}</button>
+          </div>
+          {% empty %}
+          <p>{% trans "No cameras available for this brand." %}</p>
+          {% endfor %}
+      </div>
+  </div>
+  <script>
+      $(document).ready(function() {
+          $('.variant-dropdown').on('change', function() {
+              const $dropdown = $(this);
+              const selectedOption = $dropdown.find('option:selected');
+              const price = selectedOption.data('price');
+              const stock = selectedOption.data('stock');
+              const variantId = selectedOption.val();
+              const variantType = selectedOption.data('variant-type');
+              const $productItem = $dropdown.closest('.product-item');
+              $productItem.find('.price').text('$' + price.toFixed(2));
+              $productItem.find('.resolution').text(
+                  $dropdown.find('option:selected').text().split(' - ')[0] // Update displayed resolution
+              );
+              $productItem.find('.add-to-cart-btn')
+                  .attr('data-variant-id', variantId)
+                  .attr('data-variant-type', variantType);
+          });
+      });
+  </script>
+  {% endblock %}
