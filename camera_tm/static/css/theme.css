@@ -1,0 +1,95 @@
+/* Default styles (light mode) */
+body.light-mode {
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+}
+
+/* Header adjustments */
+body.dark-mode .header {
+    background: linear-gradient(90deg, #121212, #2c3e50);
+}
+
+/* Search bar adjustments */
+body.dark-mode .search-bar {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .search-bar input {
+    color: #e0e0e0;
+}
+
+body.dark-mode .search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+body.dark-mode #camera-search-btn {
+    color: #e0e0e0;
+}
+
+body.dark-mode #camera-search-btn:hover {
+    color: #a0a0a0;
+}
+
+/* Navigation adjustments */
+body.dark-mode .nav-list {
+    background: #121212;
+}
+
+/* Footer adjustments */
+body.dark-mode .footer {
+    background: #121212;
+}
+
+body.dark-mode .footer-links a {
+    color: #e0e0e0;
+}
+
+body.dark-mode .footer-links a:hover {
+    color: #a0a0a0;
+}
+
+/* Product items */
+body.dark-mode .product-item {
+    border-color: #444;
+    background: #2a2a2a;
+}
+
+body.dark-mode .product-item:hover {
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .price {
+    color: #4a90e2;
+}
+
+body.dark-mode .resolution,
+body.dark-mode .capacity,
+body.dark-mode .channels {
+    color: #b0b0b0;
+}
+
+/* Buttons */
+body.dark-mode .btn {
+    background: #2c3e50;
+}
+
+body.dark-mode .btn:hover {
+    background: #4a90e2;
+}
+
+/* Messages */
+body.dark-mode .alert-success {
+    background: #2e7d32;
+    color: #c8e6c9;
+}
+
+body.dark-mode .alert-error {
+    background: #d32f2f;
+    color: #ffcdd2;
+}

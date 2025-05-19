@@ -47,6 +47,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',  # Ensure this is present
 ]
@@ -104,9 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 LANGUAGES = [
-    ('tk', 'Türkmen Dili'),
-    ('ru', 'Русский'),
-    ('en', 'English'),
+    ('tk', 'Tm'),
+    ('ru', 'Ru'),
+    ('en', 'En'),
 ]
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),

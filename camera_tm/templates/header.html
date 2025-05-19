@@ -1,0 +1,171 @@
+<!-- header start -->
+<header class="header header__style-three">
+    <div class="header__top">
+        <div class="container mxw_1360">
+            <div class="header__top-info ul_li_between mt-none-10">
+                <ul class="header__top-left ul_li mt-10">
+                    <li><a href="tel:+99361455558">Call us</a> free 24/7 : (+993) 65-45-55-58 </li>
+                    <li><i class="fas fa-envelope"></i> cameratm000@gmail.com</li>
+                </ul>
+                <ul class="header__top-right ul_li mt-10">
+                    <li>
+                        <div class="header__language currency">
+                            <ul>
+                                <li>
+                                    <a href="#!" class="lang-btn">
+                                        Language <i class="far fa-chevron-down"></i>
+                                    </a>
+                                    <ul class="lang_sub_list">
+                                        <li>
+                                            <form action="{% url 'set_language' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="language" value="tk">
+                                                <button type="submit" class="language-option-link">Türkmen</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form action="{% url 'set_language' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="language" value="ru">
+                                                <button type="submit" class="language-option-link">Русский</button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form action="{% url 'set_language' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="language" value="en">
+                                                <button type="submit" class="language-option-link">English</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container mxw_1360">
+        <div class="header__middle ul_li_between">
+            <div class="header__logo">
+                <a href="/">
+                    <img src="static/img/logo/logo.svg" alt="">
+                </a>
+            </div>
+            <div class="header-date">
+                <i class="far fa-calendar-alt"></i> <span id="ashgabat-datetime"></span>
+            </div>
+            <div class="header__social">
+                <a href="#!"><i class="fab fa-instagram"></i></a>
+                <a href="#!"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="header__wrap" data-uk-sticky="top: 250; animation: uk-animation-slide-top;">
+        <div class="container mxw_1360">
+            <div class="header__main ul_li">
+                <div class="header__logo">
+                    <a href="index.html">
+                        <img src="static/img/logo/logo.svg" alt="">
+                    </a>
+                </div>
+                <div class="header__category">
+                    <a class="header__category-nav" href="#!"><img class="bar" src="static/img/icon/bar.svg" alt="">Browse Categories<i class="fas fa-chevron-down"></i></a>
+                </div>
+                <div class="hamburger_menu d-lg-none">
+                    <a href="javascript:void(0);" class="active">
+                        <div class="icon bar">
+                            <span><i class="fal fa-bars"></i></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="main-menu navbar navbar-expand-lg">
+                    <nav class="main-menu__nav collapse navbar-collapse">
+                        <ul>
+                            <li class="menu-item-has-children has-mega-menu active"><a href="index.html">Home</a>
+                                <ul class="mega-menu">
+                                    <li>
+                                        <div class="mega-menu-content">
+                                            <div class="row">
+                                                <div class="col col-md-3">
+                                                    <div class="demo-pic">
+                                                        <a href="index.html">
+                                                            <img src="static/img/demo/demo-1.jpg" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <h3>#Home Demo 1</h3>
+                                                </div>
+                                                <div class="col col-md-3">
+                                                    <div class="demo-pic">
+                                                        <a href="home-2.html">
+                                                            <img src="static/img/demo/demo-2.jpg" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <h3>#Home Demo 2</h3>
+                                                </div>
+                                                <div class="col col-md-3">
+                                                    <div class="demo-pic">
+                                                        <a href="home-3.html">
+                                                            <img src="static/img/demo/demo-3.jpg" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <h3>#Home Demo 3</h3>
+                                                </div>
+                                                <div class="col col-md-3">
+                                                    <div class="demo-pic coming-soon">
+                                                        <span>Coming Soon</span>
+                                                    </div>
+                                                    <h3>Coming Soon</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#!">Shop</a>
+                                <ul class="submenu">
+                                    <li><a href="shop.html">Shop Default</a></li>
+                                    <li><a href="shop-left-sidebar.html">Shop Left Sidebar</a></li>
+                                    <li><a href="shop-single.html">Shop Single</a></li>
+                                    <li><a href="cart.html">Shop Cart</a></li>
+                                    <li><a href="checkout.html">Shop Checkout</a></li>
+                                    <li><a href="account.html">Account</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="shop.html">Accesories</a></li>
+                            <li class="menu-item-has-children">
+                                <a href="#!">Blog</a>
+                                <ul class="submenu">
+                                    <li><a href="news.html">Blog</a></li>
+                                    <li><a href="news-single.html">Blog Details</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#!">Pages</a>
+                                <ul class="submenu">
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="about.html">Account</a></li>
+                                    <li><a href="404.html">404</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="header__main-right ul_li">
+                    <div class="header__icons ul_li mr-15">
+                        <div class="icon wishlist-icon">
+                            <a href="/wishlist/">
+                                <img src="static/img/icon/heart.svg" alt="">
+                                <span class="count">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- header end -->

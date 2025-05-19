@@ -1,165 +1,98 @@
-{% load i18n static %}
-
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <link rel="icon" href="{% static 'images/faveicon.jpg' %}" type="image/x-icon">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% translate "CameraTM" %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body>
-    <header>
-        <div class="logo">
-            
-        </div>
-        <div class="header-middle">
-            <p>{% translate "Welcome to  CAMERA.TM." %}</p>
-            
-        </div><div class="header-right">
-            <button id="menuButton" class="sidebar-toggle" onclick="toggleSidebar()">
-                ☰
-            </button>
-            <a href="/" class="home-button">
-                {% translate "Home" %}
-            </a>
-            <form action="{% url 'set_language' %}" method="post" class="language-form">{% csrf_token %}
-                <label for="language">{% translate "Select Language" %}:</label>
-                <select name="language" id="language" onchange="this.form.submit()">
-                    <option value="" disabled selected>{% translate "Select Language" %}</option>
-                    <option value="tk">Türkmen Dili (tk)</option>
-                    <option value="ru">Русский (ru)</option>
-                    <option value="en">English (en)</option>
-                </select>
-            </form>
-        </div>
-    </header>
-
-    <!-- View Counter -->
-    <div class="view-counter" style="text-align: center; padding: 10px; background-color: #333; color: #dcdcdc;">
-        <p>{% translate "Total Page Views" %}: {{ view_count }}</p>
-    </div>
-
-    <!-- Sidebar toggle button -->
-    <button id="menuButton" class="sidebar-toggle" onclick="toggleSidebar()">
-        ☰
-    </button>
-
-    <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar">
-        <button onclick="toggleSidebar()">✖</button>
-        <h2>{% translate "Categories" %}</h2>
-        <ul>
-            <li>
-                <a href="#" onclick="toggleSubBrands('cameras')">{% translate "Cameras" %}</a>
-                <ul id="camerasSubBrands" class="subbrands" style="display: none;">
-                    <li><a href="{% url 'brand_cameras' 'UNV' %}">UNV</a></li>
-                    <li><a href="{% url 'brand_cameras' 'TVT' %}">TVT</a></li>
-                    <li><a href="{% url 'brand_cameras' 'Tiandy' %}">Tiandy</a></li>
-                    <li><a href="{% url 'brand_cameras' 'Uniarch' %}">Uniarch</a></li>
-                </ul>
-            </li>
-            <li><a href="{% url 'switch_list' %}">{% translate "Switches" %}</a></li>
-            <li><a href="{% url 'harddisk_list' %}">{% translate "Hard disk" %}</a></li>
-            <li><a href="{% url 'nvr_list' %}">{% translate "NVR" %}</a></li>
-            <li><a href="{% url 'view_cart' %}">{% translate "cart" %}</a></li>
-            
-        </ul>
-    </aside>
-
-    <aside class="sidebar">
-        <h2>{% translate "Cameras by Brand" %}</h2>
-        {% for brand, cameras in cameras_by_brand.items %}
-            <div class="brand-group">
-                <h3>{{ brand }}</h3>
-                <div class="card-container">
-                    {% for camera in cameras %}
-                        <div class="camera-card">
-                            <img src="{{ camera.image.url }}" alt="{{ camera.model_name }}">
-                            <h4>{{ camera.model_name }}</h4>
-                            <p>${{ camera.price }}</p>
-                        </div>
-                    {% empty %}
-                        <p>{% translate "No cameras available" %}</p>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-    </aside>
-
-    <main class="hero">
-        {% block content %}
-        <!-- Sahypa mazmuny şu ýerde görkeziler -->
-        {% endblock %}
-    </main>
-
-    <section class="about-us">
-        <h2>{% translate "About Us" %}</h2>
-        <p>{% translate "Welcome to CameraTM! We specialize in providing high-quality IP cameras and reliable home phone systems to meet your security and communication needs. Our mission is to offer innovative and user-friendly solutions with excellent customer support." %}</p>
-    </section>
-
-    <section class="contact-info">
-        <h2>{% translate "Contact Us" %}</h2>
-        <p>{% translate "You can reach us through the following channels:" %}</p>
-        <div class="social-links">
-            <p>{% translate "Tel: +99361455558" %}</p>
-            {% if email %}
-            <a href="mailto:{{ email }}" class="contact-link">
-                <img src="{% static 'images/email.png' %}" alt="{% translate 'Email' %}">
-                <span>{% translate "Email" %}</span>
-            </a>
-            {% endif %}
-            {% if tiktok_link %}
-            <a href="{{ tiktok_link }}" target="_blank" class="contact-link">
-                <img src="{% static 'images/tiktok.png' %}" alt="TikTok">
-                <span>TikTok</span>
-            </a>
-            {% endif %}
-            {% if instagram_link %}
-            <a href="{{ instagram_link }}" target="_blank" class="contact-link">
-                <img src="{% static 'images/instagram.png' %}" alt="Instagram">
-                <span>Instagram</span>
-            </a>
-            {% endif %}
-            {% if linkedin_link %}
-            <a href="{{ linkedin_link }}" target="_blank" class="contact-link">
-                <img src="{% static 'images/link.png' %}" alt="LinkedIn">
-                <span>Link</span>
-            </a>
-            {% endif %}
-            {% if imo_link %}
-            <a href="{{ imo_link }}" target="_blank" class="contact-link">
-                <img src="{% static 'images/imo.png' %}" alt="IMO">
-                <span>IMO</span>
-            </a>
-            {% endif %}
-        </div>
-    </section>
-
-    <footer>
-        <p>© {% now "Y" %} {% translate "CameraTM. All rights reserved." %}</p>
-    </footer>
-
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const menuButton = document.getElementById('menuButton');
-            
-            if (sidebar.classList.contains('active')) {
-                sidebar.classList.remove('active');
-                menuButton.classList.remove('hidden');
-            } else {
-                sidebar.classList.add('active');
-                menuButton.classList.add('hidden');
-            }
-        }
-
-        function toggleSubBrands(category) {
-            const subBrands = document.getElementById(category + 'SubBrands');
-            const display = subBrands.style.display === 'none' ? 'block' : 'none';
-            subBrands.style.display = display;
-        }
-    </script>
-</body>
-</html>
+{% extends 'base.html' %}
+  {% load static i18n %}
+  {% block title %}{% trans "Home - Camera-TM" %}{% endblock %}
+  {% block content %}
+  <div class="container home-container">
+      <h1>{% trans "Welcome to Camera-TM" %}</h1>
+      <p>{% trans "Your one-stop shop for security solutions." %}</p>
+      <p>{% trans "Total Variants Available" %}: {{ total_variants }}</p>
+      <div class="brand-section">
+          <h2>{% trans "Featured Products" %}</h2>
+          <div class="product-list">
+              {% for item in featured_products %}
+              {% with product=item.product variants=item.variants %}
+              {% if variants %}
+              <div class="product-item">
+                  <img src="{{ product.image.url }}" alt="{{ product.brand }} {{ product.model_name }}" class="product-img">
+                  <h3>{{ product.brand }} {{ product.model_name }}</h3>
+                  <p>{{ product.description|truncatewords:20 }}</p>
+                  {% with first_variant=variants|first %}
+                  {% if first_variant %}
+                  <p class="resolution" data-type="{% if first_variant.resolution %}resolution{% elif first_variant.storage_capacity %}capacity{% elif first_variant.channels %}channels{% endif %}">
+                      <strong>
+                          {% if first_variant.resolution %}{{ first_variant.resolution }}{% elif first_variant.storage_capacity %}{{ first_variant.storage_capacity }}{% elif first_variant.channels %}{{ first_variant.channels }}{% endif %}
+                      </strong>
+                  </p>
+                  <p class="price">${{ first_variant.price|floatformat:2 }}</p>
+                  <div class="variant-select">
+                      <label for="variant-select-{{ product.id }}" class="visually-hidden">{% trans "Select Variant" %}:</label>
+                      <select id="variant-select-{{ product.id }}" class="variant-dropdown" data-product-id="{{ product.id }}" data-initial-variant-type="{% if first_variant.resolution %}camera{% elif first_variant.storage_capacity %}harddisk{% elif first_variant.channels %}{% if first_variant in product.nvr_variants.all %}nvr{% elif first_variant in product.switch_variants.all %}switch{% endif %}{% endif %}">
+                          {% for v in variants %}
+                          <option value="{{ v.id }}" data-price="{{ v.price }}" data-stock="{{ v.stock }}" data-variant-type="{% if v.resolution %}camera{% elif v.storage_capacity %}harddisk{% elif v.channels %}{% if v in product.nvr_variants.all %}nvr{% elif v in product.switch_variants.all %}switch{% endif %}{% endif %}" {% if v.id == first_variant.id %}selected{% endif %}>
+                              {% if v.resolution %}{{ v.resolution }}{% elif v.storage_capacity %}{{ v.storage_capacity }}{% elif v.channels %}{{ v.channels }}-port{% endif %}
+                              - ${{ v.price }} (Stock: {{ v.stock }})
+                          </option>
+                          {% endfor %}
+                      </select>
+                      <button class="add-to-cart-btn btn" 
+                              data-product-id="{{ product.id }}" 
+                              data-variant-id="{{ first_variant.id }}" 
+                              data-variant-type="{% if first_variant.resolution %}camera{% elif first_variant.storage_capacity %}harddisk{% elif first_variant.channels %}{% if first_variant in product.nvr_variants.all %}nvr{% elif first_variant in product.switch_variants.all %}switch{% endif %}{% endif %}">
+                          {% trans "Add to Cart" %}
+                      </button>
+                  </div>
+                  <button class="btn add-to-wishlist-btn" data-product-id="{{ product.id }}">Add to Wishlist</button>
+                  {% endif %}
+                  {% endwith %}
+              </div>
+              {% endif %}
+              {% endwith %}
+              {% empty %}
+              <p>{% trans "No featured products available." %}</p>
+              {% endfor %}
+          </div>
+      </div>
+      <div class="brand-section">
+          <h2>{% trans "Cameras by Brand" %}</h2>
+          {% for brand, products in cameras_by_brand.items %}
+          <h3>{{ brand }}</h3>
+          <div class="product-list">
+              {% for product, variants in products.items %}
+              {% if variants %}
+              <div class="product-item">
+                  <img src="{{ product.image.url }}" alt="{{ product.brand }} {{ product.model_name }}" class="product-img">
+                  <h3>{{ product.brand }} {{ product.model_name }}</h3>
+                  <p>{{ product.description|truncatewords:20 }}</p>
+                  {% with first_variant=variants|first %}
+                  {% if first_variant %}
+                  <p class="resolution" data-type="resolution"><strong>{{ first_variant.resolution }}</strong></p>
+                  <p class="price">${{ first_variant.price|floatformat:2 }}</p>
+                  <div class="variant-select">
+                      <label for="variant-select-{{ product.id }}" class="visually-hidden">{% trans "Select Variant" %}:</label>
+                      <select id="variant-select-{{ product.id }}" class="variant-dropdown" data-product-id="{{ product.id }}" data-initial-variant-type="camera">
+                          {% for v in variants %}
+                          <option value="{{ v.id }}" data-price="{{ v.price }}" data-stock="{{ v.stock }}" data-variant-type="camera" {% if v.id == first_variant.id %}selected{% endif %}>
+                              {{ v.resolution }} - ${{ v.price }} (Stock: {{ v.stock }})
+                          </option>
+                          {% endfor %}
+                      </select>
+                      <button class="add-to-cart-btn btn" 
+                              data-product-id="{{ product.id }}" 
+                              data-variant-id="{{ first_variant.id }}" 
+                              data-variant-type="camera">
+                          {% trans "Add to Cart" %}
+                      </button>
+                  </div>
+                  <button class="btn add-to-wishlist" data-product-id="{{ product.id }}">{% trans "Add to Wishlist" %}</button>
+                  {% endif %}
+                  {% endwith %}
+              </div>
+              {% endif %}
+              {% endfor %}
+          </div>
+          {% empty %}
+          <p>{% trans "No cameras available." %}</p>
+          {% endfor %}
+      </div>
+  </div>
+  {% endblock %}

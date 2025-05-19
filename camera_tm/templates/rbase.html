@@ -1,0 +1,469 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Camera-tm electronic store</title>
+
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="images/x-icon"/>
+
+    <!-- CSS include -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/uikit.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <div class="body_wrap">
+        <!-- Preloader -->
+        <div class="preloder_part">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>
+
+        <!-- Back to top -->
+        <div class="progress-wrap">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"/>
+            </svg>
+        </div>
+
+        <!-- Header -->
+        <header class="header header__style-three">
+            <div class="header__top">
+                <div class="container mxw_1360">
+                    <div class="header__top-info ul_li_between mt-none-10">
+                        <ul class="header__top-left ul_li mt-10">
+                            <li><a href="tel:+99361455558">Call us</a> free 24/7 : (+993) 65-45-55-58 </li>
+                            <li><i class="fas fa-envelope"></i> cameratm000@gmail.com</li>
+                        </ul>
+                        <ul class="header__top-right ul_li mt-10">
+                            <li>
+                                <div class="header__language currency">
+                                    <ul>
+                                        <li>
+                                            <a href="#!" class="lang-btn">
+                                                Language <i class="far fa-chevron-down"></i>
+                                            </a>
+                                            <ul class="lang_sub_list">
+                                                <li>
+                                                    <form action="{% url 'set_language' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="language" value="tk">
+                                                        <button type="submit" class="language-option-link">Türkmen</button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form action="{% url 'set_language' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="language" value="ru">
+                                                        <button type="submit" class="language-option-link">Русский</button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form action="{% url 'set_language' %}" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="language" value="en">
+                                                        <button type="submit" class="language-option-link">English</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="container mxw_1360">
+                <div class="header__middle ul_li_between">
+                    <div class="header__logo">
+                        <a href="/">
+                            <img src="{% static 'img/logo/logo.svg' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="header-date">
+                        <i class="far fa-calendar-alt"></i> <span id="ashgabat-datetime"></span>
+                    </div>
+                    <div class="header__social">
+                        <a href="#!"><i class="fab fa-instagram"></i></a>
+                        <a href="#!"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="header__wrap" data-uk-sticky="top: 250; animation: uk-animation-slide-top;">
+                <div class="container mxw_1360">
+                    <div class="header__main ul_li">
+                        <div class="header__logo">
+                            <a href="{% url 'home' %}">
+                                <img src="{% static 'img/logo/logo.svg' %}" alt="">
+                            </a>
+                        </div>
+                        <div class="header__category">
+                            <a class="header__category-nav" href="#!"><img class="bar" src="{% static 'img/icon/bar.svg' %}" alt="">Browse Categories<i class="fas fa-chevron-down"></i></a>
+                        </div>
+                        <div class="hamburger_menu d-lg-none">
+                            <a href="javascript:void(0);" class="active">
+                                <div class="icon bar">
+                                    <span><i class="fal fa-bars"></i></span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="main-menu navbar navbar-expand-lg">
+                            <nav class="main-menu__nav collapse navbar-collapse">
+                                <ul>
+                                    <li class="menu-item-has-children has-mega-menu active"><a href="{% url 'home' %}">Home</a>
+                                        <ul class="mega-menu">
+                                            <li>
+                                                <div class="mega-menu-content">
+                                                    <div class="row">
+                                                        <div class="col col-md-3">
+                                                            <div class="demo-pic">
+                                                                <a href="{% url 'home' %}">
+                                                                    <img src="{% static 'img/demo/demo-1.jpg' %}" alt="">
+                                                                </a>
+                                                            </div>
+                                                            <h3>#Home Demo 1</h3>
+                                                        </div>
+                                                        <div class="col col-md-3">
+                                                            <div class="demo-pic">
+                                                                <a href="#">
+                                                                    <img src="{% static 'img/demo/demo-2.jpg' %}" alt="">
+                                                                </a>
+                                                            </div>
+                                                            <h3>#Home Demo 2</h3>
+                                                        </div>
+                                                        <div class="col col-md-3">
+                                                            <div class="demo-pic">
+                                                                <a href="#">
+                                                                    <img src="{% static 'img/demo/demo-3.jpg' %}" alt="">
+                                                                </a>
+                                                            </div>
+                                                            <h3>#Home Demo 3</h3>
+                                                        </div>
+                                                        <div class="col col-md-3">
+                                                            <div class="demo-pic coming-soon">
+                                                                <span>Coming Soon</span>
+                                                            </div>
+                                                            <h3>Coming Soon</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#!">Shop</a>
+                                        <ul class="submenu">
+                                            <li><a href="#">Shop Default</a></li>
+                                            <li><a href="#">Shop Left Sidebar</a></li>
+                                            <li><a href="#">Shop Single</a></li>
+                                            <li><a href="#">Shop Cart</a></li>
+                                            <li><a href="#">Shop Checkout</a></li>
+                                            <li><a href="#">Account</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Accesories</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#!">Blog</a>
+                                        <ul class="submenu">
+                                            <li><a href="#">Blog</a></li>
+                                            <li><a href="#">Blog Details</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#!">Pages</a>
+                                        <ul class="submenu">
+                                            <li><a href="#">About Us</a></li>
+                                            <li><a href="#">Account</a></li>
+                                            <li><a href="#">404</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Contact</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="header__main-right ul_li">
+                            <div class="header__icons ul_li mr-15">
+                                <div class="icon wishlist-icon">
+                                    <a href="#">
+                                        <img src="{% static 'img/icon/heart.svg' %}" alt="">
+                                        <span class="count">0</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar and cart -->
+        <aside class="slide-bar">
+            <div class="close-mobile-menu">
+                <a href="javascript:void(0);"><i class="fal fa-times"></i></a>
+            </div>
+            <div class="cart_sidebar">
+                <button type="button" class="cart_close_btn"><i class="fal fa-times"></i></button>
+                <h2 class="heading_title text-uppercase">Cart Items - <span>4</span></h2>
+                <div class="cart_items_list">
+                    <div class="cart_item">
+                        <div class="item_image">
+                            <img src="{% static 'img/product/img_01.png' %}" alt="image_not_found">
+                        </div>
+                        <div class="item_content">
+                            <h4 class="item_title">Rorem ipsum dolor sit amet.</h4>
+                            <span class="item_price">$19.00</span>
+                            <button type="button" class="remove_btn"><i class="fal fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="cart_item">
+                        <div class="item_image">
+                            <img src="{% static 'img/product/img_02.png' %}" alt="image_not_found">
+                        </div>
+                        <div class="item_content">
+                            <h4 class="item_title">Rorem ipsum dolor sit amet.</h4>
+                            <span class="item_price">$22.00</span>
+                            <button type="button" class="remove_btn"><i class="fal fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="cart_item">
+                        <div class="item_image">
+                            <img src="{% static 'img/product/img_03.png' %}" alt="image_not_found">
+                        </div>
+                        <div class="item_content">
+                            <h4 class="item_title">Rorem ipsum dolor sit amet.</h4>
+                            <span class="item_price">$43.00</span>
+                            <button type="button" class="remove_btn"><i class="fal fa-times"></i></button>
+                        </div>
+                    </div>
+                    <div class="cart_item">
+                        <div class="item_image">
+                            <img src="{% static 'img/product/img_04.png' %}" alt="image_not_found">
+                        </div>
+                        <div class="item_content">
+                            <h4 class="item_title">Rorem ipsum dolor sit amet.</h4>
+                            <span class="item_price">$14.00</span>
+                            <button type="button" class="remove_btn"><i class="fal fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="total_price text-uppercase">
+                    <span>Sub Total:</span>
+                    <span>$87.00</span>
+                </div>
+                <ul class="btns_group ul_li">
+                    <li><a href="#" class="thm-btn"><span class="btn-wrap"><span>View Cart</span><span>View Cart</span></span></a></li>
+                    <li><a href="#" class="thm-btn thm-btn__black"><span class="btn-wrap"><span>Checkout</span><span>Checkout</span></span></a></li>
+                </ul>
+            </div>
+            <nav class="side-mobile-menu">
+                <div class="header-mobile-search">
+                    <form role="search" method="get" action="#">
+                        <input type="text" placeholder="Search Keywords">
+                        <button type="submit"><i class="ti-search"></i></button>
+                    </form>
+                </div>
+                <ul id="mobile-menu-active">
+                    <li class="dropdown"><a href="{% url 'home' %}">Home</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Home One</a></li>
+                            <li><a href="#">Home Two</a></li>
+                            <li><a href="#">Home Three</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Shop</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Shop Default</a></li>
+                            <li><a href="#">Shop Left Sidebar</a></li>
+                            <li><a href="#">Shop Single</a></li>
+                            <li><a href="#">Shop Cart</a></li>
+                            <li><a href="#">Shop Checkout</a></li>
+                            <li><a href="#">Account</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="">Accesories</a></li>
+                    <li class="dropdown">
+                        <a href="#!">Blog</a>
+                        <ul class="sub-menu">
+                            <li><a href="#"">Blog</a></li>
+                            <li><a href="#">Blog Details</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#!">Pages</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Account</a></li>
+                            <li><a href="#">404</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="body-overlay"></div>
+
+        <!-- Main content block -->
+        <main>
+            {% block content %}
+            {% endblock content %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer footer__style-three black-bg pt-75">
+            <div class="newslater">
+                <div class="container mxw_1360">
+                    <div class="newslater__wrap ul_li">
+                        <div class="newslater__content">
+                            <h2 class="title">NEWSLETTER SIGN UP!</h2>
+                            <p>For information Consult with our expert members</p>
+                        </div>
+                        <form class="newslater__form" action="#">
+                            <input placeholder="Enter your Email" type="text">
+                            <button>Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="container mxw_1360">
+                <div class="footer__main pt-70 pb-90">
+                    <div class="row mt-none-40">
+                        <div class="footer__widget col-lg-3 col-md-6 mt-40">
+                            <div class="footer__logo mb-20">
+                                <a href="{% url 'home' %}"><img src="{% static 'img/logo/logo-2.svg' %}" alt=""></a>
+                            </div>
+                            <p>Corporate clients and leisure travelers has
+                                been relying on Groundlink for dependable
+                                safe, and professional chauffeured car end
+                                service in major cities across World.</p>
+                            <div class="apps-img mt-15 ul_li">
+                                <div class="app mt-15">
+                                    <a href="#!"><img src="{% static 'img/icon/google_play.png' %}" alt=""></a>
+                                </div>
+                                <div class="app mt-15">
+                                    <a href="#!"><img src="{% static 'img/icon/app_store.png' %}" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer__widget col-lg-3 col-md-6 mt-40">
+                            <h2 class="title">Find It Fast</h2>
+                            <ul class="quick-links">
+                                <li><a href="#!">Laptops & Computers</a></li>
+                                <li><a href="#!">Cameras & Photography</a></li>
+                                <li><a href="#!">Smart Phones & Tablets</a></li>
+                                <li><a href="#!">Video Games & Consoles</a></li>
+                                <li><a href="#!">TV & Audio</a></li>
+                                <li><a href="#!">Gadgets</a></li>
+                                <li><a href="#!">Waterproof Headphones</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer__widget col-lg-3 col-md-6 mt-40">
+                            <h2 class="title">Quick Links</h2>
+                            <ul class="quick-links">
+                                <li><a href="#!">Your Account</a></li>
+                                <li><a href="#!">Returns & Exchanges</a></li>
+                                <li><a href="#!">Return Center</a></li>
+                                <li><a href="#!">Purchase Hisotry</a></li>
+                                <li><a href="#!">App Download</a></li>
+                                <li><a href="#!">Latest News Blog</a></li>
+                                <li><a href="#!">Shipping & Delivery</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer__widget col-lg-3 col-md-6 mt-40">
+                            <h2 class="title">Recent Posts</h2>
+                            <ul class="footer__post">
+                                <li class="footer__post-item tx-post ul_li">
+                                    <div class="post-thumb">
+                                        <a href="#!"><img src="{% static 'img/news/img_04.jpg' %}" alt=""></a>
+                                        <span class="post-number">01</span>
+                                    </div>
+                                    <div class="post-content">
+                                        <span class="post-date"><i class="far fa-calendar-alt"></i>23 April 2021</span>
+                                        <h3 class="post-title border-effect-2"><a href="#">With billion players .</a></h3>
+                                    </div>
+                                </li>
+                                <li class="footer__post-item tx-post ul_li">
+                                    <div class="post-thumb">
+                                        <a href="#!"><img src="{% static 'img/news/img_05.jpg' %}" alt=""></a>
+                                        <span class="post-number">02</span>
+                                    </div>
+                                    <div class="post-content">
+                                        <span class="post-date"><i class="far fa-calendar-alt"></i>23 April 2021</span>
+                                        <h3 class="post-title border-effect-2"><a href="#">With billion players .</a></h3>
+                                    </div>
+                                </li>
+                                <li class="footer__post-item tx-post ul_li">
+                                    <div class="post-thumb">
+                                        <a href="#!"><img src="{% static 'img/news/img_06.jpg' %}" alt=""></a>
+                                        <span class="post-number">03</span>
+                                    </div>
+                                    <div class="post-content">
+                                        <span class="post-date"><i class="far fa-calendar-alt"></i>23 April 2021</span>
+                                        <h3 class="post-title border-effect-2"><a href="#">With billion players .</a></h3>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer__bottom ul_li_center">
+                    <div class="footer__copyright mt-15">
+                        © 2022 <a href="#!">Themexriver</a> . All Rights Reserved.
+                    </div>
+                    <div class="footer__social mt-15">
+                        <a href="#!"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#!"><i class="fab fa-twitter"></i></a>
+                        <a href="#!"><i class="fab fa-instagram"></i></a>
+                        <a href="#!"><i class="fab fa-youtube"></i></a>
+                        <a href="#!"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                    <div class="payment_method mt-15">
+                        <img src="{% static 'img/bg/payment_method.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Cookies area -->
+        <div class="cookies-area">
+            <p>This website uses cookies to improve your experience. By using this website you agree to our <a href="#">Data Protection Policy</a>.</p>
+            <a href="#" class="read-more">Read more</a>
+            <div>
+                <button class="cookie-btn">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/slick.js' %}"></script>
+    <script src="{% static 'js/backToTop.js' %}"></script>
+    <script src="{% static 'js/uikit.min.js' %}"></script>
+    <script src="{% static 'js/resize-sensor.min.js' %}"></script>
+    <script src="{% static 'js/theia-sticky-sidebar.min.js' %}"></script>
+    <script src="{% static 'js/wow.min.js' %}"></script>
+    <script src="{% static 'js/jqueryui.js' %}"></script>
+    <script src="{% static 'js/touchspin.js' %}"></script>
+    <script src="{% static 'js/countdown.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/metisMenu.min.js' %}"></script>
+    <script src="{% static 'js/ashgabat_time.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+/* Sidebar link styles for all devices */
+.nav-list {
+    background: #1E3A8A; /* Retain the original background for reference */
+}
+
+.nav-list a {
+    color: #ffffff; /* White text for readability against blue background */
+    text-decoration: none; /* Remove default underline */
+}
+
+.nav-list a:hover {
+    color: #d3d3d3; /* Light gray on hover for better contrast */
+    text-decoration: underline; /* Add underline on hover for interactivity */
+}
+
+.icon-link a {
+    color: #ffffff; /* Ensure icon links (e.g., wishlist, cart) are white */
+}
+
+.icon-link a:hover {
+    color: #d3d3d3; /* Light gray on hover for icon links */
+}

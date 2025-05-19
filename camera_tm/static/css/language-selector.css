@@ -1,0 +1,36 @@
+.language-selector {
+    position: relative;
+    z-index: 1000;
+    margin: 0 1rem; /* Space around the selector */
+}
+
+.language-selector select {
+    background: linear-gradient(90deg, #1E3A8A, #3B82F6);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    appearance: none; /* Remove default dropdown arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); /* Custom dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    padding-right: 2rem; /* Space for the arrow */
+}
+
+.language-selector select:focus {
+    outline: none;
+    background: linear-gradient(90deg, #3B82F6, #1E3A8A);
+}
+
+@media (max-width: 768px) {
+    .language-selector select {
+        font-size: 0.9rem;
+        padding: 0.4rem;
+        padding-right: 1.5rem;
+    }
+}

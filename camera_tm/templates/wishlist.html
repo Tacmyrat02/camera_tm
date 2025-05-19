@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+    {% load static i18n %}
+
+    {% block title %}
+    {% trans "Wishlist - Camera-TM" %}
+    {% endblock %}
+
+    {% block content %}
+    <div class="container">
+        <h1>{% trans "Your Wishlist" %}</h1>
+        {% if wishlist_items %}
+        <div class="wishlist-items">
+            {% for item in wishlist_items %}
+            <div class="wishlist-item" id="wishlist-item-{{ item.product.id }}">
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.brand }} {{ item.product.model_name }}" class="wishlist-item-img">
+                <div class="wishlist-item-info">
+                    <h3>{{ item.product.brand }} {{ item.product.model_name }}</h3>
+                    <p>{{ item.product.description|truncatewords:20 }}</p>
+                    <a href="{% url 'camera_detail' product_id=item.product.id %}" class="btn">{% trans "View Details" %}</a>
+                    
+                    <form method="post" action="{% url 'remove_from_wishlist' item.product.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn remove-wishlist-btn" data-product-id="{{ item.product.id }}">{% trans "Remove" %}</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>{% trans "Your wishlist is empty." %}</p>
+        {% endif %}
+    </div>
+    {% endblock %}
+
+    {% block extra_scripts %}
+    <script type="text/javascript">
+        var wishlistCountUrl = "{% url 'get_wishlist_count' %}";
+    </script>
+    {% endblock %}

@@ -1,24 +1,54 @@
-{% extends "home.html" %}
-{% load math_filters %}
-{% load i18n %}
-
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block title %}{% trans "Switches - Camera-TM" %}{% endblock %}
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Switch Models</title>
-</head>
-<body>
-    <h1>Switch Models</h1>
-    <ul>
-        {% for switch in switches %}
-            <li>
-                <strong>{{ switch.model_name }}</strong><br>
-                Price: ${{ switch.price }}<br>
-                Description: {{ switch.description }}<br>
-            </li>
+<div class="container">
+    <h1>{% trans "Switches" %}</h1>
+    <div class="product-list">
+        {% for variant in switch_variants %}
+        <div class="product-item">
+            <img src="{{ variant.product.image.url }}" alt="{{ variant.product.brand }} {{ variant.product.model_name }}" class="product-img">
+            <h3>{{ variant.product.brand }} {{ variant.product.model_name }}</h3>
+            <p>{{ variant.product.description|truncatewords:20 }}</p>
+            <p class="channels">{{ variant.channels }} {% trans "Channels" %}</p>
+            <p class="price">${{ variant.price }}</p>
+            <p class="channels"><strong>{{ variant.channels }}-port</strong></p>
+<div class="variant-select">
+    <label for="variant-select-{{ variant.id }}" class="visually-hidden">{% trans "Select Variant" %}:</label>
+    <select id="variant-select-{{ variant.id }}" class="variant-dropdown" data-product-id="{{ variant.product.id }}">
+        {% for v in switch_variants %}
+            {% if v.product.id == variant.product.id %}
+            <option value="{{ v.id }}" data-price="{{ v.price }}" data-stock="{{ v.stock }}" {% if v.id == variant.id %}selected{% endif %}>
+                {{ v.channels }}-port - ${{ v.price }} (Stock: {{ v.stock }})
+            </option>
+            {% endif %}
         {% endfor %}
-    </ul>
-</body>
-</html>
-{%endblock%}
+    </select>
+    
+            <button class="add-to-cart-btn btn" data-product-id="{{ variant.id }}" data-variant-type="{% if variant.resolution %}camera{% elif variant.storage_capacity %}harddisk{% elif variant.channels %}{% if variant in product.nvr_variants.all %}nvr{% elif variant in product.switch_variants.all %}switch{% endif %}{% endif %}">{% trans "Add to Cart" %}</button>
+            <button class="btn add-to-wishlist" data-product-id="{{ variant.product.id }}">{% trans "Add to Wishlist" %}</button>
+        </div>
+        {% empty %}
+        <p>{% trans "No switches available." %}</p>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('.variant-dropdown').on('change', function() {
+            const $dropdown = $(this);
+            const selectedOption = $dropdown.find('option:selected');
+            const price = selectedOption.data('price');
+            const stock = selectedOption.data('stock');
+            const variantId = selectedOption.val();
+            const variantType = selectedOption.data('variant-type');
+            const $productItem = $dropdown.closest('.product-item');
+            $productItem.find('.price').text('$' + price.toFixed(2));
+            $productItem.find('.add-to-cart-btn')
+                .attr('data-product-id', variantId)
+                .attr('data-variant-type', variantType);
+        });
+    });
+</script>
+
+{% endblock %}

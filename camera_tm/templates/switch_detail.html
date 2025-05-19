@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block title %}{{ product.brand }} {{ product.model_name }} - Switch - Camera-TM{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>{{ product.brand }} {{ product.model_name }}</h1>
+    <div class="product-detail">
+        <img src="{{ product.image.url }}" alt="{{ product.brand }} {{ product.model_name }}" class="product-img-large">
+        <div class="product-info">
+            <p>{{ product.description }}</p>
+            <h2>{% trans "Variants" %}</h2>
+            <!-- Variant Selection Dropdown -->
+            <div class="variant-select">
+                <label for="variant-select" class="visually-hidden">{% trans "Select Variant" %}:</label>
+                <select id="variant-select" class="variant-dropdown" data-product-id="{{ product.id }}">
+                    {% for variant in variants %}
+                    <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-stock="{{ variant.stock }}" {% if forloop.first %}selected{% endif %}>
+                        {{ variant.ports }} Ports - ${{ variant.price }} (Stock: {{ variant.stock }})
+                    </option>
+                    {% endfor %}
+                </select>
+                <button class="btn add-to-cart" data-variant-type="switch">{% trans "Add to Cart" %}</button>
+            </div>
+            <!-- Variant Comparison Table -->
+            <table class="variant-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Ports" %}</th>
+                        <th>{% trans "Price" %}</th>
+                        <th>{% trans "Stock" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for variant in variants %}
+                    <tr>
+                        <td>{{ variant.ports }} Ports</td>
+                        <td>${{ variant.price|floatformat:2 }}</td>
+                        <td>{{ variant.stock }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn add-to-wishlist" data-product-id="{{ product.id }}">{% trans "Add to Wishlist" %}</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('.add-to-cart').click(function() {
+            const variantId = $('#variant-select').val();
+            const variantType = $(this).data('variant-type');
+            $.ajax({
+                url: `/add_to_cart/${variantId}/`,
+                method: "POST",
+                data: { variant_type: variantType },
+                success: function() {
+                    alert("Item added to cart successfully!");
+                    location.reload();
+                },
+                error: function(xhr) {
+                    alert("Failed to add to cart: " + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

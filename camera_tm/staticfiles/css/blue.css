@@ -1,0 +1,78 @@
+/* Blue Theme */
+:root {
+    --primary-blue: #1e3a8a; /* darkblue */
+    --secondary-blue: #2563eb; /* blue-600 */
+    --hover-blue: #1d4ed8; /* blue-700 */
+    --dark-gray: #1f2937; /* gray-800 */
+    --hover-gray: #111827; /* gray-900 */
+}
+
+/* Buttons */
+.thm-btn {
+    background-color: var(--secondary-blue);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: var(--secondary-font);
+    font-weight: 500;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.thm-btn:hover {
+    background-color: var(--hover-blue);
+}
+
+.thm-btn__black {
+    background-color: var(--dark-gray);
+}
+
+.thm-btn__black:hover {
+    background-color: var(--hover-gray);
+}
+
+.btn-wrap {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-wrap span {
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.btn-wrap span:first-child {
+    transform: translateY(0);
+}
+
+.btn-wrap span:last-child {
+    transform: translateY(100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.thm-btn:hover .btn-wrap span:first-child {
+    transform: translateY(-100%);
+}
+
+.thm-btn:hover .btn-wrap span:last-child {
+    transform: translateY(0);
+}
+
+/* Banner Slide */
+.banner-slide__content a {
+    background-color: var(--secondary-blue);
+}
+
+.banner-slide__content a:hover {
+    background-color: var(--hover-blue);
+}
+
+/* Mobile List */
+.mobile-list {
+    background-color: var(--primary-blue);
+}

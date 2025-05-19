@@ -1,24 +1,36 @@
-{% extends "home.html" %}
-{% load math_filters %}
-{% load i18n %}
-
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block title %}{% trans "Hard Disks - Camera-TM" %}{% endblock %}
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hard Disk List</title>
-</head>
-<body>
-    <h1>Hard Disk List</h1>
-    <ul>
-        {% for harddisk in harddisks %}
-            <li>
-                <strong>{{ harddisk.storage_capacity }} GB</strong><br>
-                Price: ${{ harddisk.price }}<br>
-                Description: {{ harddisk.description }}<br>
-            </li>
+<div class="container">
+    <h1>{% trans "Hard Disks" %}</h1>
+    <div class="product-list">
+        {% for variant in harddisk_variants %}
+        <div class="product-item">
+            <img src="{{ variant.product.image.url }}" alt="{{ variant.product.brand }} {{ variant.product.model_name }}" class="product-img">
+            <h3>{{ variant.product.brand }} {{ variant.product.model_name }}</h3>
+            <p>{{ variant.product.description|truncatewords:20 }}</p>
+            <p class="capacity">{{ variant.storage_capacity }}</p>
+            <p class="price">${{ variant.price }}</p>
+            <p class="capacity"><strong>{{ variant.storage_capacity }}</strong></p>
+<div class="variant-select">
+    <label for="variant-select-{{ variant.id }}" class="visually-hidden">{% trans "Select Variant" %}:</label>
+    <select id="variant-select-{{ variant.id }}" class="variant-dropdown" data-product-id="{{ variant.product.id }}">
+        {% for v in harddisk_variants %}
+            {% if v.product.id == variant.product.id %}
+            <option value="{{ v.id }}" data-price="{{ v.price }}" data-stock="{{ v.stock }}" {% if v.id == variant.id %}selected{% endif %}>
+                {{ v.storage_capacity }} - ${{ v.price }} (Stock: {{ v.stock }})
+            </option>
+            {% endif %}
         {% endfor %}
-    </ul>
-</body>
-</html>
-{%endblock%} 
+    </select>
+  
+                        <button class="add-to-cart-btn btn" data-product-id="{{ variant.id }}" data-variant-type="{% if variant.resolution %}camera{% elif variant.storage_capacity %}harddisk{% elif variant.channels %}{% if variant in product.nvr_variants.all %}nvr{% elif variant in product.switch_variants.all %}switch{% endif %}{% endif %}">{% trans "Add to Cart" %}</button>
+            <button class="btn add-to-wishlist" data-product-id="{{ variant.product.id }}">{% trans "Add to Wishlist" %}</button>
+        </div>
+        {% empty %}
+        <p>{% trans "No hard disks available." %}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

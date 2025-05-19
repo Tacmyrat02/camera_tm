@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block title %}{% trans "Search Results - Camera-TM" %}{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>{% trans "Search Results" %}</h1>
+    {% if query %}
+    <p>{% trans "Showing results for" %}: <strong>{{ query }}</strong></p>
+    {% elif image_query %}
+    <p>{% trans "Showing results for image search" %}: <strong>{{ image_query }}</strong></p>
+    {% endif %}
+    <div class="product-list">
+        {% for product in results %}
+        <div class="product-item">
+            <img src="{{ product.image.url }}" alt="{{ product.brand }} {{ product.model_name }}" class="product-img">
+            <h3>{{ product.brand }} {{ product.model_name }}</h3>
+            <p>{{ product.description|truncatewords:20 }}</p>
+            <a href="{% if product.camera_variants.exists %}{% url 'camera_detail' product.id %}{% elif product.harddisk_variants.exists %}{% url 'harddisk_detail' product.id %}{% elif product.nvr_variants.exists %}{% url 'nvr_detail' product.id %}{% elif product.switch_variants.exists %}{% url 'switch_detail' product.id %}{% endif %}" class="btn">{% trans "View Details" %}</a>
+        </div>
+        {% empty %}
+        <p>{% trans "No products found." %}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
